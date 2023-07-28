@@ -83,6 +83,7 @@ function CreateCabinForm() {
           id="name"
           {...register('name', { required: 'This field is quired' })}
         />
+        {errors?.name?.message && <Error>{errors.name.message}</Error>}
       </FormRow>
 
       <FormRow>
@@ -92,6 +93,7 @@ function CreateCabinForm() {
           id="maxCapacity"
           {...register('maxCapacity', { required: 'This field is quired' })}
         />
+        {errors?.maxCapacity?.message && <Error>{errors.maxCapacity.message}</Error>}
       </FormRow>
 
       <FormRow>
@@ -101,6 +103,7 @@ function CreateCabinForm() {
           id="regularPrice"
           {...register('regularPrice', { required: 'This field is quired' })}
         />
+        {errors?.regularPrice?.message && <Error>{errors.regularPrice.message}</Error>}
       </FormRow>
 
       <FormRow>
@@ -111,6 +114,7 @@ function CreateCabinForm() {
           defaultValue={0}
           {...register('discount', { required: 'This field is quired' })}
         />
+        {errors?.discount?.message && <Error>{errors.discount.message}</Error>}
       </FormRow>
 
       <FormRow>
@@ -121,6 +125,7 @@ function CreateCabinForm() {
           defaultValue=""
           {...register('description', { required: 'This field is quired' })}
         />
+        {errors?.description?.message && <Error>{errors.description.message}</Error>}
       </FormRow>
 
       <FormRow>
@@ -130,6 +135,7 @@ function CreateCabinForm() {
           accept="image/*"
           {...register('image', { required: 'This field is quired' })}
         />
+        {errors?.image?.message && <Error>{errors.image.message}</Error>}
       </FormRow>
 
       <FormRow>
