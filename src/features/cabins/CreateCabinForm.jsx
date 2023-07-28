@@ -51,6 +51,7 @@ function CreateCabinForm() {
     register,
     handleSubmit,
     reset,
+    getValues,
     formState: { errors },
   } = useForm();
   const queryClient = useQueryClient();
@@ -91,7 +92,13 @@ function CreateCabinForm() {
         <Input
           type="number"
           id="maxCapacity"
-          {...register('maxCapacity', { required: 'This field is quired' })}
+          {...register('maxCapacity', {
+            required: 'This field is quired',
+            min: {
+              value: 1,
+              message: 'Capacity should be less than 1',
+            },
+          })}
         />
         {errors?.maxCapacity?.message && <Error>{errors.maxCapacity.message}</Error>}
       </FormRow>
@@ -101,7 +108,13 @@ function CreateCabinForm() {
         <Input
           type="number"
           id="regularPrice"
-          {...register('regularPrice', { required: 'This field is quired' })}
+          {...register('regularPrice', {
+            required: 'This field is quired',
+            min: {
+              value: 1,
+              message: 'Capacity should be less than 1',
+            },
+          })}
         />
         {errors?.regularPrice?.message && <Error>{errors.regularPrice.message}</Error>}
       </FormRow>
@@ -112,7 +125,14 @@ function CreateCabinForm() {
           type="number"
           id="discount"
           defaultValue={0}
-          {...register('discount', { required: 'This field is quired' })}
+          {...register('discount', {
+            required: 'This field is quired',
+            min: {
+              value: 1,
+              message: 'Capacity should be less than 1',
+            },
+            validate: (value) => value < getValues('regularPrice') || 'Discount can not greater than Price',
+          })}
         />
         {errors?.discount?.message && <Error>{errors.discount.message}</Error>}
       </FormRow>
