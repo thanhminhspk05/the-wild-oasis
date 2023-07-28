@@ -1,6 +1,9 @@
 import styled from 'styled-components';
 
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
+import { createCabins } from '../../services/apiCabins';
 import Button from '../../ui/Button';
 import FileInput from '../../ui/FileInput';
 import Form from '../../ui/Form';
@@ -43,28 +46,35 @@ const Error = styled.span`
   color: var(--color-red-700);
 `;
 
-const initialValues = {};
-
 function CreateCabinForm() {
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    formState: { errors },
-  } = useForm();
+  const { register, handleSubmit, setValue, reset } = useForm();
+  const queryClient = useQueryClient();
 
-  const onSubmit = handleSubmit((data) => {
-    console.log(data);
+  const { isLoading: isCreating, mutate: createMutation } = useMutation({
+    mutationFn: (id) => createCabins(id),
+    onSuccess: () => {
+      toast.success('Cabin successfully created');
+      queryClient.invalidateQueries({
+        queryKey: ['cabins'],
+      });
+      reset();
+    },
+    onError: (err) => toast.error(err.message),
   });
 
-  const onReset = () => {
-    setValue('name', undefined);
-    setValue('maxCapacity', undefined);
-    setValue('regularPrice', undefined);
-    setValue('discount', 0);
-    setValue('description', '');
-    setValue('image', '');
-  };
+  const onSubmit = handleSubmit((formData) => {
+    console.log(formData);
+    createMutation(formData);
+  });
+
+  // const onReset = () => {
+  //   setValue('name', undefined);
+  //   setValue('maxCapacity', undefined);
+  //   setValue('regularPrice', undefined);
+  //   setValue('discount', 0);
+  //   setValue('description', '');
+  //   setValue('image', '');
+  // };
 
   return (
     <Form>
@@ -129,11 +139,16 @@ function CreateCabinForm() {
         <Button
           variation="secondary"
           type="reset"
-          onClick={onReset}
+          onClick={() => reset()}
         >
           Cancel
         </Button>
-        <Button onClick={onSubmit}>Add cabin</Button>
+        <Button
+          onClick={onSubmit}
+          disabled={isCreating}
+        >
+          Add cabin
+        </Button>
       </FormRow>
     </Form>
   );
