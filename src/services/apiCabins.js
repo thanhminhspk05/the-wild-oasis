@@ -12,6 +12,7 @@ export async function getCabins() {
 }
 
 export async function createCabins(formData) {
+  console.log(formData);
   const { data, error } = await supabase.from('cabins').insert([formData]).select();
 
   if (error) {
