@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
-import { createCabins } from '../../services/apiCabins';
+import { createEditCabins } from '../../services/apiCabins';
 import Button from '../../ui/Button';
 import FileInput from '../../ui/FileInput';
 import Form from '../../ui/Form';
@@ -9,7 +9,7 @@ import Input from '../../ui/Input';
 import Textarea from '../../ui/Textarea';
 import FormRow from './FormRow';
 
-function CreateCabinForm({ cabin }) {
+function CreateCabinForm({ cabin, id }) {
   const {
     register,
     handleSubmit,
@@ -22,7 +22,7 @@ function CreateCabinForm({ cabin }) {
   const queryClient = useQueryClient();
 
   const { isLoading: isCreating, mutate: createMutation } = useMutation({
-    mutationFn: (id) => createCabins(id),
+    mutationFn: (newData) => createEditCabins(newData),
     onSuccess: () => {
       toast.success('Cabin successfully created');
       queryClient.invalidateQueries({
@@ -33,8 +33,27 @@ function CreateCabinForm({ cabin }) {
     onError: (err) => toast.error(err.message),
   });
 
+  const { isLoading: isEditing, mutate: editMutation } = useMutation({
+    mutationFn: (newData, id) => createEditCabins(newData, id),
+    onSuccess: () => {
+      toast.success('Cabin successfully edited');
+      queryClient.invalidateQueries({
+        queryKey: ['cabins'],
+      });
+      reset();
+    },
+    onError: (err) => toast.error(err.message),
+  });
+
+  const isWorking = isEditing || isCreating;
+
   const onSubmit = handleSubmit((formData) => {
-    createMutation({ ...formData, image: formData.image[0] });
+    const image = typeof formData.image === 'string' ? formData.image : formData.image[0];
+    if (id) {
+      editMutation({});
+    } else {
+      createMutation({ ...formData, image: formData.image[0] });
+    }
   });
 
   return (
@@ -47,6 +66,7 @@ function CreateCabinForm({ cabin }) {
           type="text"
           id="name"
           {...register('name', { required: 'This field is quired' })}
+          disabled={isWorking}
         />
       </FormRow>
 
@@ -64,6 +84,7 @@ function CreateCabinForm({ cabin }) {
               message: 'Capacity should be less than 1',
             },
           })}
+          disabled={isWorking}
         />
       </FormRow>
 
@@ -81,6 +102,7 @@ function CreateCabinForm({ cabin }) {
               message: 'Capacity should be less than 1',
             },
           })}
+          disabled={isWorking}
         />
       </FormRow>
 
@@ -96,6 +118,7 @@ function CreateCabinForm({ cabin }) {
             required: 'This field is quired',
             validate: (value) => value < getValues('regularPrice') || 'Discount can not greater than Price',
           })}
+          disabled={isWorking}
         />
       </FormRow>
 
@@ -108,6 +131,7 @@ function CreateCabinForm({ cabin }) {
           id="description"
           defaultValue=""
           {...register('description', { required: 'This field is quired' })}
+          disabled={isWorking}
         />
       </FormRow>
 
@@ -118,7 +142,8 @@ function CreateCabinForm({ cabin }) {
         <FileInput
           id="image"
           accept="image/*"
-          {...register('image', { required: 'This field is quired' })}
+          {...register('image', { required: cabin?.id ? false : 'This field is quired' })}
+          disabled={isWorking}
         />
       </FormRow>
 
@@ -132,9 +157,9 @@ function CreateCabinForm({ cabin }) {
         </Button>
         <Button
           onClick={onSubmit}
-          disabled={isCreating}
+          disabled={isWorking}
         >
-          {cabin?.name ? 'Edit' : 'Add'} cabin
+          {cabin?.id ? 'Edit' : 'Add'} cabin
         </Button>
       </FormRow>
     </Form>
