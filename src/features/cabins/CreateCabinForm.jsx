@@ -33,9 +33,8 @@ function CreateCabinForm() {
 
   const onSubmit = handleSubmit((formData) => {
     console.log(formData);
-    createMutation(formData);
+    createMutation({ ...formData, image: formData.image.at(0) });
   });
-
 
   return (
     <Form>
@@ -94,10 +93,6 @@ function CreateCabinForm() {
           defaultValue={0}
           {...register('discount', {
             required: 'This field is quired',
-            min: {
-              value: 1,
-              message: 'Capacity should be less than 1',
-            },
             validate: (value) => value < getValues('regularPrice') || 'Discount can not greater than Price',
           })}
         />
