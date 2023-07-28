@@ -89,7 +89,7 @@ function CabinRow({ cabin }) {
         </Action>
       </TableRow>
 
-      {showForm && <CreateCabinForm />}
+      {showForm && <CreateCabinForm cabin={cabin} />}
     </>
   );
 }

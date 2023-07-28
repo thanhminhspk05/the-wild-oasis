@@ -9,14 +9,16 @@ import Input from '../../ui/Input';
 import Textarea from '../../ui/Textarea';
 import FormRow from './FormRow';
 
-function CreateCabinForm() {
+function CreateCabinForm({ cabin }) {
   const {
     register,
     handleSubmit,
     reset,
     getValues,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    values: cabin,
+  });
   const queryClient = useQueryClient();
 
   const { isLoading: isCreating, mutate: createMutation } = useMutation({
@@ -132,7 +134,7 @@ function CreateCabinForm() {
           onClick={onSubmit}
           disabled={isCreating}
         >
-          Add cabin
+          {cabin?.name ? 'Edit' : 'Add'} cabin
         </Button>
       </FormRow>
     </Form>
