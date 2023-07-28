@@ -32,12 +32,11 @@ function CreateCabinForm() {
   });
 
   const onSubmit = handleSubmit((formData) => {
-    console.log(formData);
-    createMutation({ ...formData, image: formData.image.at(0) });
+    createMutation({ ...formData, image: formData.image[0] });
   });
 
   return (
-    <Form>
+    <Form onSubmit={onSubmit}>
       <FormRow
         label="Cabin name"
         error={errors?.name?.message}
