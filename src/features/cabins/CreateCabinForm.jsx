@@ -47,7 +47,12 @@ const Error = styled.span`
 `;
 
 function CreateCabinForm() {
-  const { register, handleSubmit, setValue, reset, getValues } = useForm();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
   const queryClient = useQueryClient();
 
   const { isLoading: isCreating, mutate: createMutation } = useMutation({
@@ -62,26 +67,21 @@ function CreateCabinForm() {
     onError: (err) => toast.error(err.message),
   });
 
-  const onSubmit = (formData) => {
+  const onSubmit = handleSubmit((formData) => {
+    console.log(formData);
     createMutation(formData);
-  };
+  });
 
-  const onError = (err) => console.log(err);
+  console.log('error', errors);
 
   return (
     <Form>
-      <FormRow onSubmit={handleSubmit(onSubmit, onError)}>
+      <FormRow onSubmit={onSubmit}>
         <Label htmlFor="name">Cabin name</Label>
         <Input
           type="text"
           id="name"
-          {...register('name', {
-            required: 'This field is required',
-            min: {
-              value: 1,
-              message: 'Capacity should be at least 1',
-            },
-          })}
+          {...register('name', { required: 'This field is quired' })}
         />
       </FormRow>
 
@@ -90,13 +90,7 @@ function CreateCabinForm() {
         <Input
           type="number"
           id="maxCapacity"
-          {...register('maxCapacity', {
-            required: 'This field is required',
-            min: {
-              value: 1,
-              message: 'Capacity should be at least 1',
-            },
-          })}
+          {...register('maxCapacity', { required: 'This field is quired' })}
         />
       </FormRow>
 
@@ -105,13 +99,7 @@ function CreateCabinForm() {
         <Input
           type="number"
           id="regularPrice"
-          {...register('regularPrice', {
-            required: 'This field is required',
-            min: {
-              value: 1,
-              message: 'Capacity should be at least 1',
-            },
-          })}
+          {...register('regularPrice', { required: 'This field is quired' })}
         />
       </FormRow>
 
@@ -121,10 +109,7 @@ function CreateCabinForm() {
           type="number"
           id="discount"
           defaultValue={0}
-          {...register('discount', {
-            required: 'This field is required',
-            validate: (value) => value <= getValues().regularPrice || 'Discount should be less regular price',
-          })}
+          {...register('discount', { required: 'This field is quired' })}
         />
       </FormRow>
 
@@ -134,7 +119,7 @@ function CreateCabinForm() {
           type="number"
           id="description"
           defaultValue=""
-          {...register('description', { required: 'This field is required' })}
+          {...register('description', { required: 'This field is quired' })}
         />
       </FormRow>
 
@@ -143,7 +128,7 @@ function CreateCabinForm() {
         <FileInput
           id="image"
           accept="image/*"
-          {...register('image', { required: 'This field is required' })}
+          {...register('image', { required: 'This field is quired' })}
         />
       </FormRow>
 
