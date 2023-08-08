@@ -1,39 +1,46 @@
-import { useState } from "react";
-import Button from "../../ui/Button";
-import Form from "../../ui/Form";
-import Input from "../../ui/Input";
-import FormRowVertical from "../../ui/FormRowVertical";
+import { Button, Stack, TextField, styled } from '@mui/material';
+import { useState } from 'react';
+import Form from '../../ui/Form';
+import { useLogin } from './useLogin';
+// import FormRowVertical from "../../ui/FormRowVertical";
+
+const CmTextField = styled(TextField)(() => ({
+  width: '100%',
+  marginBottom: '20px',
+}));
 
 function LoginForm() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('minh@gmail.com');
+  const [password, setPassword] = useState('123456');
 
-  function handleSubmit() {}
+  const { mutate, isLoading } = useLogin();
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    if (!email || !password) return;
+    mutate({ email, password });
+  }
 
   return (
     <Form onSubmit={handleSubmit}>
-      <FormRowVertical label="Email address">
-        <Input
-          type="email"
-          id="email"
-          // This makes this form better for password managers
-          autoComplete="username"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-      </FormRowVertical>
-      <FormRowVertical label="Password">
-        <Input
-          type="password"
-          id="password"
-          autoComplete="current-password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-      </FormRowVertical>
-      <FormRowVertical>
-        <Button size="large">Login</Button>
-      </FormRowVertical>
+      <CmTextField
+        label="Email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        disabled={isLoading}
+      />
+
+      <CmTextField
+        label="Password"
+        type="password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        disabled={isLoading}
+      />
+
+      <Stack>
+        <Button type="submit">Login</Button>
+      </Stack>
     </Form>
   );
 }

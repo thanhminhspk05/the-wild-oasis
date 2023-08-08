@@ -89,7 +89,7 @@ function CabinForm({ cabin, id }) {
         />
       </FormRow>
 
-      <FormRow
+      <FormRow 
         label="Regular Price"
         error={errors?.regularPrice?.message}
       >
