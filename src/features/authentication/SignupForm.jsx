@@ -8,7 +8,6 @@ const initialValues = {
   fullName: '',
   email: '',
   password: '',
-  repeatPw: '',
 };
 
 function SignupForm() {
@@ -62,18 +61,6 @@ function SignupForm() {
             value={value}
             onChange={onChange}
             helperText={'lalaa'}
-          />
-        )}
-      />
-
-      <Controller
-        name={'repeatPw'}
-        control={control}
-        render={({ field: { onChange, value } }) => (
-          <CmTextField
-            label="Repeat Password"
-            value={value}
-            onChange={onChange}
           />
         )}
       />
