@@ -131,7 +131,7 @@ function CreateCabinForm({ cabin, id }) {
           type="number"
           id="description"
           defaultValue=""
-          {...register('description', { required: 'This field is quired' })}
+          {...register('description')}
           disabled={isWorking}
         />
       </FormRow>

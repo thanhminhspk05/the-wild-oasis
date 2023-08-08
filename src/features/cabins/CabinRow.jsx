@@ -4,7 +4,7 @@ import toast from 'react-hot-toast';
 import styled from 'styled-components';
 import { deleteCabins } from '../../services/apiCabins';
 import { formatCurrency } from '../../utils/helpers';
-import CreateCabinForm from './CreateCabinForm';
+import CreateCabinForm from './CabinForm';
 
 const TableRow = styled.div`
   display: grid;

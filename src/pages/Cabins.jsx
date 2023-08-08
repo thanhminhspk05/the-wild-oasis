@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import CabinTable from '../features/cabins/CabinTable';
-import CreateCabinForm from '../features/cabins/CreateCabinForm';
+import CabinForm from '../features/cabins/CabinForm';
 import { getCabins } from '../services/apiCabins';
 import Button from '../ui/Button';
 import Heading from '../ui/Heading';
@@ -24,7 +24,7 @@ function Cabins() {
         <CabinTable />
 
         <Button onClick={() => setShowForm((prevValue) => !prevValue)}>Add new cabin</Button>
-        {showForm && <CreateCabinForm />}
+        {showForm && <CabinForm />}
       </Row>
     </>
   );
