@@ -9,7 +9,7 @@ import Input from '../../ui/Input';
 import Textarea from '../../ui/Textarea';
 import FormRow from './FormRow';
 
-function CreateCabinForm({ cabin, id }) {
+function CabinForm({ cabin, id }) {
   const {
     register,
     handleSubmit,
@@ -167,4 +167,4 @@ function CreateCabinForm({ cabin, id }) {
   );
 }
 
-export default CreateCabinForm;
+export default CabinForm;
