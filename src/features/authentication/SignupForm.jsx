@@ -1,37 +1,90 @@
-import Button from "../../ui/Button";
-import Form from "../../ui/Form";
-import FormRow from "../../ui/FormRow";
-import Input from "../../ui/Input";
+import { Controller, useForm } from 'react-hook-form';
+import Button from '../../ui/Button';
+import { CmTextField } from './LoginForm';
+import { useSignUp } from './useSignup';
 
 // Email regex: /\S+@\S+\.\S+/
+const initialValues = {
+  fullName: '',
+  email: '',
+  password: '',
+  repeatPw: '',
+};
 
 function SignupForm() {
+  const { control, handleSubmit, reset } = useForm({
+    defaultValues: initialValues,
+  });
+
+  const { mutate, isLoading } = useSignUp();
+
+  const onSubmit = handleSubmit(({ fullName, email, password }) => {
+    mutate(
+      { fullName, email, password },
+      {
+        onSettled: reset,
+      }
+    );
+  });
+
   return (
-    <Form>
-      <FormRow label="Full name" error={""}>
-        <Input type="text" id="fullName" />
-      </FormRow>
+    <>
+      <Controller
+        name={'fullName'}
+        control={control}
+        render={({ field: { onChange, value } }) => (
+          <CmTextField
+            label="Full Name"
+            value={value}
+            onChange={onChange}
+          />
+        )}
+      />
 
-      <FormRow label="Email address" error={""}>
-        <Input type="email" id="email" />
-      </FormRow>
+      <Controller
+        name={'email'}
+        control={control}
+        render={({ field: { onChange, value } }) => (
+          <CmTextField
+            label="Email Address"
+            value={value}
+            onChange={onChange}
+          />
+        )}
+      />
 
-      <FormRow label="Password (min 8 characters)" error={""}>
-        <Input type="password" id="password" />
-      </FormRow>
+      <Controller
+        name={'password'}
+        control={control}
+        render={({ field: { onChange, value } }) => (
+          <CmTextField
+            label="Password"
+            value={value}
+            onChange={onChange}
+            helperText={'lalaa'}
+          />
+        )}
+      />
 
-      <FormRow label="Repeat password" error={""}>
-        <Input type="password" id="passwordConfirm" />
-      </FormRow>
+      <Controller
+        name={'repeatPw'}
+        control={control}
+        render={({ field: { onChange, value } }) => (
+          <CmTextField
+            label="Repeat Password"
+            value={value}
+            onChange={onChange}
+          />
+        )}
+      />
 
-      <FormRow>
-        {/* type is an HTML attribute! */}
-        <Button variation="secondary" type="reset">
-          Cancel
-        </Button>
-        <Button>Create new user</Button>
-      </FormRow>
-    </Form>
+      <Button
+        onClick={onSubmit}
+        disabled={isLoading}
+      >
+        Create new user
+      </Button>
+    </>
   );
 }
 

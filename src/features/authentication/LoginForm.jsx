@@ -1,17 +1,18 @@
-import { Button, Stack, TextField, styled } from '@mui/material';
+import { Stack, TextField, styled } from '@mui/material';
 import { useState } from 'react';
+import Button from '../../ui/Button';
 import Form from '../../ui/Form';
 import { useLogin } from './useLogin';
 // import FormRowVertical from "../../ui/FormRowVertical";
 
-const CmTextField = styled(TextField)(() => ({
+export const CmTextField = styled(TextField)(() => ({
   width: '100%',
   marginBottom: '20px',
 }));
 
 function LoginForm() {
-  const [email, setEmail] = useState('minh@gmail.com');
-  const [password, setPassword] = useState('123456');
+  const [email, setEmail] = useState('thanhminh@gmail.com');
+  const [password, setPassword] = useState('thanhminh05');
 
   const { mutate, isLoading } = useLogin();
 

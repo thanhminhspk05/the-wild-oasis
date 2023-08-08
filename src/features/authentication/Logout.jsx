@@ -5,7 +5,14 @@ import { useLogout } from './useLogout';
 function Logout() {
   const { mutate, isLoading } = useLogout();
 
-  return <Button onClick={mutate}>Logout</Button>;
+  return (
+    <Button
+      onClick={mutate}
+      disabled={isLoading}
+    >
+      Logout
+    </Button>
+  );
 }
 
 export default Logout;
