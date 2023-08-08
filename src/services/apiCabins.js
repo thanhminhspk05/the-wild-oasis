@@ -46,11 +46,12 @@ export async function editCabins(formData) {
   // 1. Update cabin
   const { data, error } = await supabase
     .from('cabins')
-    .insert({ ...formData, image: imagePath })
+    .update({ ...formData, image: imagePath })
+    .eq('id', formData.id)
     .select();
 
   if (error) {
-    throw new Error('Cabins could not be created');
+    throw new Error('Cabins could not be updated');
   }
 
   // 2. Upload image

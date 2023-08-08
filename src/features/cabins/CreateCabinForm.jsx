@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
-import { createCabins } from '../../services/apiCabins';
+import { createCabins, editCabins } from '../../services/apiCabins';
 import Button from '../../ui/Button';
 import FileInput from '../../ui/FileInput';
 import Form from '../../ui/Form';
@@ -33,25 +33,25 @@ function CreateCabinForm({ cabin, id }) {
     onError: (err) => toast.error(err.message),
   });
 
-  // const { isLoading: isEditing, mutate: editMutation } = useMutation({
-  //   mutationFn: (newData, id) => createEditCabins(newData, id),
-  //   onSuccess: () => {
-  //     toast.success('Cabin successfully edited');
-  //     queryClient.invalidateQueries({
-  //       queryKey: ['cabins'],
-  //     });
-  //     reset();
-  //   },
-  //   onError: (err) => toast.error(err.message),
-  // });
+  const { isLoading: isEditing, mutate: editMutation } = useMutation({
+    mutationFn: (newData, id) => editCabins(newData, id),
+    onSuccess: () => {
+      toast.success('Cabin successfully edited');
+      queryClient.invalidateQueries({
+        queryKey: ['cabins'],
+      });
+      reset();
+    },
+    onError: (err) => toast.error(err.message),
+  });
 
-  const isWorking = isCreating;
+  const isWorking = isEditing || isCreating;
 
   const onSubmit = handleSubmit((formData) => {
     console.log(formData.id);
     const image = typeof formData.image === 'string' ? formData.image : formData.image[0];
     if (formData.id) {
-      // editMutation({ ...formData, image }, formData.id);
+      editMutation({ ...formData, image }, formData.id);
     } else {
       createMutation({ ...formData, image: image });
     }
