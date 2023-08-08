@@ -1,5 +1,3 @@
-import { NavLink } from 'react-router-dom';
-import styled from 'styled-components';
 import {
   HiOutlineCalendarDays,
   HiOutlineCog6Tooth,
@@ -7,6 +5,9 @@ import {
   HiOutlineHomeModern,
   HiOutlineUser,
 } from 'react-icons/hi2';
+import { NavLink } from 'react-router-dom';
+import styled from 'styled-components';
+import Logout from '../features/authentication/Logout';
 
 const NavList = styled.ul`
   display: flex;
@@ -55,44 +56,48 @@ const StyledNavLink = styled(NavLink)`
 
 function MainNav() {
   return (
-    <nav>
-      <NavList>
-        <li>
-          <StyledNavLink to="/dashboard">
-            <HiOutlineHome />
-            <span>Home</span>
-          </StyledNavLink>
-        </li>
+    <>
+      <nav>
+        <NavList>
+          <li>
+            <StyledNavLink to="/dashboard">
+              <HiOutlineHome />
+              <span>Home</span>
+            </StyledNavLink>
+          </li>
 
-        <li>
-          <StyledNavLink to="/bookings">
-            <HiOutlineCalendarDays />
-            <span>Bookings</span>
-          </StyledNavLink>
-        </li>
+          <li>
+            <StyledNavLink to="/bookings">
+              <HiOutlineCalendarDays />
+              <span>Bookings</span>
+            </StyledNavLink>
+          </li>
 
-        <li>
-          <StyledNavLink to="/cabins">
-            <HiOutlineHomeModern />
-            <span>Cabins</span>
-          </StyledNavLink>
-        </li>
+          <li>
+            <StyledNavLink to="/cabins">
+              <HiOutlineHomeModern />
+              <span>Cabins</span>
+            </StyledNavLink>
+          </li>
 
-        <li>
-          <StyledNavLink to="/users">
-            <HiOutlineUser />
-            <span>Users</span>
-          </StyledNavLink>
-        </li>
+          <li>
+            <StyledNavLink to="/users">
+              <HiOutlineUser />
+              <span>Users</span>
+            </StyledNavLink>
+          </li>
 
-        <li>
-          <StyledNavLink to="/settings">
-            <HiOutlineCog6Tooth />
-            <span>Bookings</span>
-          </StyledNavLink>
-        </li>
-      </NavList>
-    </nav>
+          <li>
+            <StyledNavLink to="/settings">
+              <HiOutlineCog6Tooth />
+              <span>Bookings</span>
+            </StyledNavLink>
+          </li>
+        </NavList>
+      </nav>
+
+      <Logout />
+    </>
   );
 }
 

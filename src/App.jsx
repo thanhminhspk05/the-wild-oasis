@@ -2,6 +2,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Toaster } from 'react-hot-toast';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import Protected from './features/authentication/Protected';
 import Account from './pages/Account';
 import Bookings from './pages/Bookings';
 import Cabins from './pages/Cabins';
@@ -29,7 +30,13 @@ function App() {
       <GlobalStyles />
       <BrowserRouter>
         <Routes>
-          <Route element={<AppLayout />}>
+          <Route
+            element={
+              <Protected>
+                <AppLayout />
+              </Protected>
+            }
+          >
             <Route
               index
               element={

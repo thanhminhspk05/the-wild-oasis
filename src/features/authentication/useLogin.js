@@ -10,7 +10,7 @@ export function useLogin() {
     mutationFn: ({ email, password }) => login({ email, password }),
     onSuccess: (data) => {
       console.log(data);
-      navigate('/dashboard');
+      navigate('/dashboard', { replace: true });
     },
     onError: (err) => {
       console.log('ERROR', err);
